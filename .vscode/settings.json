@@ -1,0 +1,16 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "explicit"
+  },
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "js/ts.tsdk.path": "./node_modules/typescript/lib",
+  "js/ts.preferences.autoImportSpecifierExcludeRegexes": [
+    "^node:test$" // Otherwise, TypeScript imports from "node:test" instead of "vitest"
+  ],
+  "js/ts.preferences.importModuleSpecifierEnding": "js",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true, // Use the workspace TypeScript version
+
+  "[json][jsonc][typescript][markdown][yml]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  }
+}

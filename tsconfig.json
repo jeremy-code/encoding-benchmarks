@@ -1,0 +1,39 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    // Type Checking
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "strict": true,
+    "strictNullChecks": true,
+
+    /* Modules */
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "noUncheckedSideEffectImports": true,
+    "resolveJsonModule": true,
+    "types": ["node"],
+
+    /* Emit */
+    "declaration": true,
+    "sourceMap": false,
+
+    /* Interop Constraints */
+    "esModuleInterop": true,
+    "isolatedDeclarations": true, // https://tsdown.dev/options/dts#with-isolateddeclarations
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+
+    /* Language and Environment */
+    "moduleDetection": "force",
+    "lib": ["ES2023", "ESNext.TypedArrays"],
+    "target": "es2023",
+
+    /* Projects */
+    "incremental": false,
+
+    /* Completeness */
+    "skipLibCheck": true
+  }
+}
