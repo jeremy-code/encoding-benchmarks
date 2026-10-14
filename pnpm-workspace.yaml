@@ -15,4 +15,4 @@ allowBuilds:
 # Other settings (https://pnpm.io/settings/other)
 shellEmulator: true
 minimumReleaseAgeExclude:
-  - iconv-nano@0.0.10
+  - iconv-nano@0.0.10 || 0.0.11

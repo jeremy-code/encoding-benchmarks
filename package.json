@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "iconv-lite": "^0.7.3",
-    "iconv-nano": "^0.0.10",
+    "iconv-nano": "^0.0.11",
     "safer-buffer": "^2.1.2"
   },
   "devDependencies": {
