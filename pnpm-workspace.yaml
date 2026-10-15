@@ -11,8 +11,6 @@ blockExoticSubdeps: true
 # Build settings (https://pnpm.io/settings/build)
 verifyDepsBeforeRun: install
 strictDepBuilds: true
-allowBuilds:
-  lefthook: true
 
 # Other settings (https://pnpm.io/settings/other)
 shellEmulator: true
