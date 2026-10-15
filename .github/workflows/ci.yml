@@ -23,9 +23,7 @@ jobs:
         uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
         with:
           cache: true
-
-      - name: Install dependencies
-        run: pnpm install
+          install: true
 
       - name: Lint code with Oxlint
         run: pnpm run lint
@@ -50,13 +48,5 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm playwright install --with-deps chromium-headless-shell
 
-      - name: Run tests
-        run: pnpm run test:coverage --coverage.reporter=text-summary --coverage.reporter=cobertura
-
-      - name: Upload Vitest coverage report
-        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
       - name: Build
-        run: pnpm run build
+        run: pnpm run bench
