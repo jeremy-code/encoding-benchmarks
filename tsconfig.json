@@ -21,7 +21,6 @@
 
     /* Interop Constraints */
     "esModuleInterop": true,
-    "isolatedDeclarations": true, // https://tsdown.dev/options/dts#with-isolateddeclarations
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
 

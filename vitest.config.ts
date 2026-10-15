@@ -1,8 +1,8 @@
 import { playwright } from "@vitest/browser-playwright";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
-import { defineConfig, type ViteUserConfig } from "vitest/config";
+import { defineConfig } from "vitest/config";
 
-const vitestConfig: ViteUserConfig = defineConfig({
+const vitestConfig = defineConfig({
   test: {
     projects: [
       {
@@ -23,11 +23,7 @@ const vitestConfig: ViteUserConfig = defineConfig({
             screenshotFailures: false,
           },
         },
-        plugins: [
-          nodePolyfills({
-            include: ["buffer"],
-          }),
-        ],
+        plugins: [nodePolyfills({ include: ["buffer"] })],
       },
     ],
   },
