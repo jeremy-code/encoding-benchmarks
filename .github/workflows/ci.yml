@@ -48,5 +48,5 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm playwright install --with-deps chromium-headless-shell
 
-      - name: Build
+      - name: Run benchmarks
         run: pnpm run bench
