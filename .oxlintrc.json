@@ -13,7 +13,6 @@
   ],
   "categories": {
     "correctness": "error",
-    "perf": "warn",
     "suspicious": "warn"
   },
   "rules": {
