@@ -74,13 +74,16 @@ const README_PATH = fileURLToPath(new URL("../README.md", import.meta.url));
 
 const output = md.joinBlocks([
   md.heading("encoding-benchmarks"),
-  `Faster library is ${md.bold("bolded")}. Library versions are iconv-nano@${await getPackageVersion("iconv-nano")} and iconv-lite@${await getPackageVersion("iconv-lite")}. Ran on Node.js ${process.version} and Chromium ${await getChromiumVersion()} on ${md.link(`https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`, `GitHub Actions runner ${process.env.ImageOS} ${process.env.ImageVersion} (${process.env.RUNNER_ARCH})`)}.`,
-  md.heading("Node.js", { level: 2 }),
+  md.heading("Benchmarks", { level: 2 }),
+  `Benchmarks are ran in GitHub Actions using the default benchmark settings on Vitest and tiny-bench. It is ran both in Node.js and in headless Chromium. For Chromium, a polyfill for the Node.js Buffer API is provided by the ${md.link("https://www.npmjs.com/package/buffer", md.code("buffer"))} npm library via ${md.link("https://github.com/davidmyersdev/vite-plugin-node-polyfills", "vite-plugin-node-polyfills")} for ${md.code("iconv-lite")}'s use. Fixtures are generated from sample data representative of typical text that the encoding would use (see ${md.link("./fixtures/README.md", "./fixtures/README.md")} for more information). Expected output data is generated from the output from Python's system encoding library (see ${md.link("./scripts/update-fixtures.py", "./scripts/update-fixtures.py")}).`,
+  md.heading("Results", { level: 2 }),
+  `Faster library is ${md.bold("bolded")} and <mark>highlighted</mark>. Library versions are iconv-nano@${await getPackageVersion("iconv-nano")} and iconv-lite@${await getPackageVersion("iconv-lite")}. Ran on Node.js ${process.version} and Chromium ${await getChromiumVersion()} on ${md.link(`https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`, `GitHub Actions runner ${process.env.ImageOS} ${process.env.ImageVersion} (${process.env.RUNNER_ARCH})`)}.`,
+  md.heading("Node.js", { level: 3 }),
   md.table(
     Object.keys(benchmarks.node[0]!),
     benchmarks.node.map((row) => Object.values(row)),
   ),
-  md.heading("Chromium", { level: 2 }),
+  md.heading("Chromium", { level: 3 }),
   md.table(
     Object.keys(benchmarks.chromium[0]!),
     benchmarks.chromium.map((row) => Object.values(row)),
