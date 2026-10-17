@@ -32,13 +32,4 @@ https://ru.wikipedia.org/w/index.php?title=UTF-16&oldid=149815480
 
 ## Output sources
 
-```py
-import base64
-
-encoding = "utf-16le"
-
-with open(f"./fixtures/{encoding}/input.txt", "r", encoding="utf-8") as input, open(
-    f"./fixtures/{encoding}/output.bin.txt", "wb"
-) as output:
-    output.write(base64.b64encode(input.read().encode(encoding, errors="replace")))
-```
+See [../scripts/update-fixtures.py](../scripts/update-fixtures.py).
