@@ -2,40 +2,19 @@ import { writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 import * as md from "ts-markdown-builder";
-import type { TestBenchmarkTask } from "vitest";
 import type { JsonTestResults } from "vitest/node";
 
 import { getChromiumVersion } from "./utils/getChromiumVersion.ts";
 import { getPackageVersion } from "./utils/getPackageVersion.ts";
+import {
+  renderBenchmarkRow,
+  type BenchmarkRow,
+} from "./utils/renderBenchmarkRow.ts";
 
 const chunk = <T>(arr: T[], size: number): T[][] =>
   Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
     arr.slice(i * size, i * size + size),
   );
-
-// https://github.com/vitest-dev/vitest/blob/d9ea973140d267ca4702deb32aa35c0afb960e52/packages/vitest/src/node/reporters/renderers/benchmark-table.ts#L17
-const formatBenchNumber = (number: number): string => {
-  const res = number.toFixed(number < 100 ? 4 : 2).split(".");
-  return (
-    res[0]!.replace(/(?=(?:\d{3})+$)\B/g, ",") + (res[1] ? `.${res[1]}` : "")
-  );
-};
-
-// https://github.com/vitest-dev/vitest/blob/d9ea973140d267ca4702deb32aa35c0afb960e52/packages/vitest/src/node/reporters/renderers/benchmark-table.ts
-const renderBenchmarkRow = (task: TestBenchmarkTask) => {
-  return {
-    name: task.name,
-    hz: formatBenchNumber(task.throughput.mean),
-    min: formatBenchNumber(task.latency.min),
-    mean: formatBenchNumber(task.latency.mean),
-    p75: formatBenchNumber(task.latency.p75 || 0),
-    p99: formatBenchNumber(task.latency.p99 || 0),
-    p995: formatBenchNumber(task.latency.p995 || 0),
-    p999: formatBenchNumber(task.latency.p999 || 0),
-    rme: `\u00B1${(task.latency.rme || 0).toFixed(2)}%`,
-    samples: task.latency.samplesCount.toString(),
-  };
-};
 
 const getTestOutput = async () => {
   const json = await import("../test-output.json", {
@@ -46,6 +25,9 @@ const getTestOutput = async () => {
   return json as unknown as JsonTestResults;
 };
 
+type Benchmark = Omit<BenchmarkRow, "name"> &
+  Record<"library" | "encoding" | "title", string>;
+
 const getBenchmarks = async () => {
   const [nodeTestResult, chromiumTestResult] = (
     await getTestOutput()
@@ -54,7 +36,7 @@ const getBenchmarks = async () => {
       testResult.assertionResults.flatMap((assertionResult) =>
         assertionResult.benchmarks.flatMap((benchmark) => {
           const [_, encoding, title] = benchmark.name.split(" > ");
-          return benchmark.tasks.flatMap((task) => {
+          return benchmark.tasks.flatMap<Benchmark>((task) => {
             const { name, ...benchmarkRow } = renderBenchmarkRow(task);
 
             return {
@@ -86,10 +68,7 @@ const getBenchmarks = async () => {
   if (nodeTestResult === undefined || chromiumTestResult === undefined) {
     throw new Error("Expected two JsonTestResult objects in testResults");
   }
-  return {
-    node: nodeTestResult,
-    chromium: chromiumTestResult,
-  };
+  return { node: nodeTestResult, chromium: chromiumTestResult };
 };
 
 const benchmarks = await getBenchmarks();
