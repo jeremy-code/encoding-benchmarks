@@ -194,6 +194,9 @@ importers:
       oxlint-tsgolint:
         specifier: ^7.0.2004
         version: 7.0.2004
+      ts-markdown-builder:
+        specifier: ^0.6.0
+        version: 0.6.0
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -1597,6 +1600,10 @@ packages:
     resolution: {integrity: sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==}
     engines: {node: '>=6'}
 
+  ts-markdown-builder@0.6.0:
+    resolution: {integrity: sha512-O0ZmHM5fLRgO+FkXol2yCPV5oqbNA3InmuuuXdbwT+j249l+30Ty6gL4B540Ru/D2JEY91qwS+L3irUfDivfjQ==}
+    engines: {node: '>= 18.0.0'}
+
   tty-browserify@0.0.1:
     resolution: {integrity: sha512-C3TaO7K81YvjCgQH9Q1S3R3P3BtN3RIM8n+OvX4il1K1zgE8ZhI0op7kClgkxtutIE8hQrcrHBXvIheqKUUCxw==}
 
@@ -2889,6 +2896,8 @@ snapshots:
       typed-array-buffer: 1.0.3
 
   totalist@3.0.1: {}
+
+  ts-markdown-builder@0.6.0: {}
 
   tty-browserify@0.0.1: {}
 

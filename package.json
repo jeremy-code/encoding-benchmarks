@@ -11,7 +11,8 @@
     "bench": "vitest bench --run",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "lint": "oxlint"
+    "lint": "oxlint",
+    "update-readme": "node ./scripts/update-readme.ts"
   },
   "dependencies": {
     "iconv-lite": "^0.7.3",
@@ -24,6 +25,7 @@
     "oxfmt": "^0.73.0",
     "oxlint": "^1.88.0",
     "oxlint-tsgolint": "^7.0.2004",
+    "ts-markdown-builder": "^0.6.0",
     "typescript": "^7.0.2",
     "vite-plugin-node-polyfills": "^0.28.0",
     "vitest": "^5.0.5"
