@@ -52,7 +52,7 @@ const getBenchmarks = (jsonTestResults: JsonTestResults) => {
               (acc, val, index) => {
                 acc[val.library] = val;
                 if (index === 0) {
-                  val.library = md.bold(val.library);
+                  val.library = `<mark>${md.bold(val.library)}</mark>`;
                 }
                 return acc;
               },
