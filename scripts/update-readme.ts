@@ -44,21 +44,23 @@ const getBenchmarks = (jsonTestResults: JsonTestResults) => {
       ),
     )
     // Sort in consistent order and bold the faster library
-    .flatMap((testResult) =>
-      chunk(testResult, 2).map((testResultChunks) => {
-        const { "iconv-nano": iconvNano, "iconv-lite": iconvLite } =
-          testResultChunks.reduce<Record<string, Benchmark>>(
-            (acc, val, index) => {
-              acc[val.library] = val;
-              if (index === 0) {
-                val.library = md.bold(val.library);
-              }
-              return acc;
-            },
-            {},
-          );
-        return [iconvNano!, iconvLite!];
-      }),
+    .map((testResult) =>
+      chunk(testResult, 2)
+        .map((testResultChunks) => {
+          const { "iconv-nano": iconvNano, "iconv-lite": iconvLite } =
+            testResultChunks.reduce<Record<string, Benchmark>>(
+              (acc, val, index) => {
+                acc[val.library] = val;
+                if (index === 0) {
+                  val.library = md.bold(val.library);
+                }
+                return acc;
+              },
+              {},
+            );
+          return [iconvNano!, iconvLite!];
+        })
+        .flat(),
     );
   if (nodeTestResult === undefined || chromiumTestResult === undefined) {
     throw new Error("Expected two JsonTestResult objects in testResults");
