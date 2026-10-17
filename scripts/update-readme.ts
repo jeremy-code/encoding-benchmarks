@@ -4,17 +4,13 @@ import { fileURLToPath } from "node:url";
 import * as md from "ts-markdown-builder";
 import type { JsonTestResults } from "vitest/node";
 
+import { chunk } from "./utils/chunk.ts";
 import { getChromiumVersion } from "./utils/getChromiumVersion.ts";
 import { getPackageVersion } from "./utils/getPackageVersion.ts";
 import {
   renderBenchmarkRow,
   type BenchmarkRow,
 } from "./utils/renderBenchmarkRow.ts";
-
-const chunk = <T>(arr: T[], size: number): T[][] =>
-  Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
-    arr.slice(i * size, i * size + size),
-  );
 
 const getTestOutput = async () => {
   const json = await import("../test-output.json", {
