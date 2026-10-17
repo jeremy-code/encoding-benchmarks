@@ -6,8 +6,8 @@ on:
 permissions: {} # Each job defines its own permissions explicitly
 
 jobs:
-  build:
-    name: Build
+  update-benchmarks:
+    name: Update benchmarks
     permissions:
       contents: write # Access to check out and update code
       pull-requests: write
