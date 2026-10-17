@@ -24,10 +24,8 @@ const getTestOutput = async () => {
 type Benchmark = Omit<BenchmarkRow, "name"> &
   Record<"library" | "encoding" | "title", string>;
 
-const getBenchmarks = async () => {
-  const [nodeTestResult, chromiumTestResult] = (
-    await getTestOutput()
-  ).testResults
+const getBenchmarks = (jsonTestResults: JsonTestResults) => {
+  const [nodeTestResult, chromiumTestResult] = jsonTestResults.testResults
     .map((testResult) =>
       testResult.assertionResults.flatMap((assertionResult) =>
         assertionResult.benchmarks.flatMap((benchmark) => {
@@ -68,7 +66,7 @@ const getBenchmarks = async () => {
   return { node: nodeTestResult, chromium: chromiumTestResult };
 };
 
-const benchmarks = await getBenchmarks();
+const benchmarks = getBenchmarks(await getTestOutput());
 
 const README_PATH = fileURLToPath(new URL("../README.md", import.meta.url));
 
