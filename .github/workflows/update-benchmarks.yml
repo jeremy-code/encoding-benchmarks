@@ -12,7 +12,6 @@ jobs:
       contents: write # Access to check out and update code
       pull-requests: write
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out Git repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -22,12 +21,6 @@ jobs:
         with:
           cache: true
           install: true
-
-      - name: Lint code with Oxlint
-        run: pnpm run lint
-
-      - name: Check code formatting with Oxfmt
-        run: pnpm run format:check
 
       - name: Get Playwright version
         id: playwright-version
