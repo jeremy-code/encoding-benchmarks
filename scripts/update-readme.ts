@@ -5,6 +5,9 @@ import * as md from "ts-markdown-builder";
 import type { TestBenchmarkTask } from "vitest";
 import type { JsonTestResults } from "vitest/node";
 
+import { getChromiumVersion } from "./utils/getChromiumVersion.ts";
+import { getPackageVersion } from "./utils/getPackageVersion.ts";
+
 const chunk = <T>(arr: T[], size: number): T[][] =>
   Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
     arr.slice(i * size, i * size + size),
@@ -95,7 +98,7 @@ const README_PATH = fileURLToPath(new URL("../README.md", import.meta.url));
 
 const output = md.joinBlocks([
   md.heading("encoding-benchmarks"),
-  `Faster library is bolded. Library versions are iconv-nano@${await import("iconv-nano/package.json", { with: { type: "json" } }).then((m) => m.version)} and iconv-lite@${await import("iconv-lite/package.json", { with: { type: "json" } }).then((m) => m.version)}. Ran on Node.js ${process.version} on ${md.link(`https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`, `GitHub Actions runner ${process.env.RUNNER_OS} ${process.env.RUNNER_ARCH} ${process.env.RUNNER_NAME}`)}.`,
+  `Faster library is ${md.bold("bolded")}. Library versions are iconv-nano@${await getPackageVersion("iconv-nano")} and iconv-lite@${await getPackageVersion("iconv-lite")}. Ran on Node.js ${process.version} and Chromium ${await getChromiumVersion()} on ${md.link(`https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`, `GitHub Actions runner ${process.env.RUNNER_OS} ${process.env.RUNNER_ARCH} ${process.env.RUNNER_NAME}`)}.`,
   md.heading("Node.js", { level: 2 }),
   md.table(
     Object.keys(benchmarks.node[0]!),
