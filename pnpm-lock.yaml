@@ -170,8 +170,8 @@ importers:
         specifier: ^0.7.3
         version: 0.7.3
       iconv-nano:
-        specifier: ^0.0.14
-        version: 0.0.14
+        specifier: ^0.0.15
+        version: 0.0.15
       safer-buffer:
         specifier: ^2.1.2
         version: 2.1.2
@@ -1040,8 +1040,8 @@ packages:
     resolution: {integrity: sha512-IKXpvIzjnC9XTAUbVBcMfGS0EPaIXtW6v+zr+RRp+hqULEpo0owZax6wyRwPOJbWbzjYspQwusTsfVr0ifh4uQ==}
     engines: {node: '>=0.10.0'}
 
-  iconv-nano@0.0.14:
-    resolution: {integrity: sha512-ATMao2tKnYvF84T3F8u8cSrAysAr1crQ7ptabGZH840kB2HPguID08qDK5s8JDKDbwCDA6Z9oVoxtwk4vBqCxQ==}
+  iconv-nano@0.0.15:
+    resolution: {integrity: sha512-TzWkaYjv3tWQ8ZCe9w1T6Sfi3GERdNUAqUNOP6GKnNQQaYOnai8GzhYpWRE6alNRg/2DR1HLFrI2CUwNqNhKaQ==}
     engines: {node: '>=11.0.0'}
 
   ieee754@1.2.1:
@@ -2408,7 +2408,7 @@ snapshots:
     dependencies:
       safer-buffer: 2.1.2
 
-  iconv-nano@0.0.14: {}
+  iconv-nano@0.0.15: {}
 
   ieee754@1.2.1: {}
 
