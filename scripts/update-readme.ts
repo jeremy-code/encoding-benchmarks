@@ -29,7 +29,7 @@ const getBenchmarks = (jsonTestResults: JsonTestResults) => {
     .map((testResult) =>
       testResult.assertionResults.flatMap((assertionResult) =>
         assertionResult.benchmarks.flatMap((benchmark) => {
-          const [_, encoding, title] = benchmark.name.split(" > ");
+          const [encoding, title] = benchmark.name.split(" > ");
           return benchmark.tasks.flatMap<Benchmark>((task) => {
             const { name, ...benchmarkRow } = renderBenchmarkRow(task);
 

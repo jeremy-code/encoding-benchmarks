@@ -39,49 +39,47 @@ const encodings = {
   { encoding: iconvNano.Encoding & iconvLite.Encoding } & Fixture
 >;
 
-describe.concurrent("encodings", () => {
-  describe.for(Object.entries(encodings))(
-    "%s",
-    async ([, { encoding, encodedText, text }]) => {
-      // oxlint-disable-next-line vitest/expect-expect -- expect is not necessary, this test only runs benchmarks
-      it("encode", async ({ bench }) => {
-        await bench.compare(
-          bench("iconv-lite", () => {
-            return iconvLite.encode(text, encoding);
-          }),
-          bench("iconv-nano", () => {
-            return iconvNano[encoding].encode(text);
-          }),
-        );
-      });
+describe.for(Object.entries(encodings))(
+  "%s",
+  async ([, { encoding, encodedText, text }]) => {
+    // oxlint-disable-next-line vitest/expect-expect -- expect is not necessary, this test only runs benchmarks
+    it("encode", async ({ bench }) => {
+      await bench.compare(
+        bench("iconv-lite", () => {
+          return iconvLite.encode(text, encoding);
+        }),
+        bench("iconv-nano", () => {
+          return iconvNano[encoding].encode(text);
+        }),
+      );
+    });
 
-      // oxlint-disable-next-line vitest/expect-expect -- expect is not necessary, this test only runs benchmarks
-      it("decode", async ({ bench }) => {
-        await bench.compare(
-          bench("iconv-lite", () => {
-            return iconvLite.decode(encodedText, encoding);
-          }),
-          bench("iconv-nano", () => {
-            return iconvNano[encoding].decode(encodedText);
-          }),
-        );
-      });
+    // oxlint-disable-next-line vitest/expect-expect -- expect is not necessary, this test only runs benchmarks
+    it("decode", async ({ bench }) => {
+      await bench.compare(
+        bench("iconv-lite", () => {
+          return iconvLite.decode(encodedText, encoding);
+        }),
+        bench("iconv-nano", () => {
+          return iconvNano[encoding].decode(encodedText);
+        }),
+      );
+    });
 
-      it("iconv-lite encodes text correctly", () => {
-        // Buffer doesn't .toEqual Uint8Array
-        expect(new Uint8Array(iconvLite.encode(text, encoding))).toEqual(
-          encodedText,
-        );
-      });
-      it("iconv-nano encodes text correctly", () => {
-        expect(iconvNano[encoding].encode(text)).toEqual(encodedText);
-      });
-      it("iconv-lite decodes text correctly", () => {
-        expect(iconvLite.decode(encodedText, encoding)).toEqual(text);
-      });
-      it("iconv-nano decodes text correctly", () => {
-        expect(iconvNano[encoding].decode(encodedText)).toEqual(text);
-      });
-    },
-  );
-});
+    it("iconv-lite encodes text correctly", () => {
+      // Buffer doesn't .toEqual Uint8Array
+      expect(new Uint8Array(iconvLite.encode(text, encoding))).toEqual(
+        encodedText,
+      );
+    });
+    it("iconv-nano encodes text correctly", () => {
+      expect(iconvNano[encoding].encode(text)).toEqual(encodedText);
+    });
+    it("iconv-lite decodes text correctly", () => {
+      expect(iconvLite.decode(encodedText, encoding)).toEqual(text);
+    });
+    it("iconv-nano decodes text correctly", () => {
+      expect(iconvNano[encoding].decode(encodedText)).toEqual(text);
+    });
+  },
+);
