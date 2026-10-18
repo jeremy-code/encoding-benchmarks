@@ -1,6 +1,7 @@
 import { writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
+import { format, type FormatConfig } from "oxfmt";
 import * as md from "ts-markdown-builder";
 import type { JsonTestResults } from "vitest/node";
 
@@ -112,4 +113,15 @@ const output = md.joinBlocks([
   ].join(" "),
 ]);
 
-await writeFile(README_PATH, output);
+const formattedOutput = (
+  await format(
+    "README.md",
+    output,
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+    (await import("../.oxfmtrc.json", {
+      with: { type: "json" },
+    }).then((m) => m.default)) as FormatConfig,
+  )
+).code;
+
+await writeFile(README_PATH, formattedOutput);
