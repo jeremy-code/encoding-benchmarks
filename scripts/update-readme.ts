@@ -23,21 +23,21 @@ const getTestOutput = async () => {
 };
 
 type Benchmark = Omit<BenchmarkRow, "name"> &
-  Record<"library" | "encoding" | "title", string>;
+  Record<"library" | "encoding" | "operation", string>;
 
 const getBenchmarks = (jsonTestResults: JsonTestResults) => {
   const [nodeTestResult, chromiumTestResult] = jsonTestResults.testResults
     .map((testResult) =>
       testResult.assertionResults.flatMap((assertionResult) =>
         assertionResult.benchmarks.flatMap((benchmark) => {
-          const [encoding, title] = benchmark.name.split(" > ");
+          const [encoding, operation] = benchmark.name.split(" > ");
           return benchmark.tasks.flatMap<Benchmark>((task) => {
             const { name, ...benchmarkRow } = renderBenchmarkRow(task);
 
             return {
               library: name,
               encoding: encoding!,
-              title: title!,
+              operation: operation!,
               ...benchmarkRow,
             };
           });
