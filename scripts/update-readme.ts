@@ -90,6 +90,20 @@ const output = md.joinBlocks([
     `Fixtures are generated from sample data representative of typical text that the encoding would use (see ${md.link("./fixtures/README.md", "./fixtures/README.md")} for more information).`,
     `Expected output data is generated from the output from Python's system encoding library (see ${md.link("./scripts/update-fixtures.py", "./scripts/update-fixtures.py")}).`,
   ].join(" "),
+  md.heading("Additional notes", { level: 3 }),
+  md.list([
+    [
+      `The 'ASCII' encoding is actually ${md.link("https://en.wikipedia.org/wiki/Windows-1252", "Windows-1252")} as opposed to 7-bit ASCII. This is because this is what the whatwg/encoding standard should be aliased for ASCII.`,
+      "It is also more useful as a benchmark, as 7-bit ASCII is a subset of UTF-8, so Windows-1252 is more representative of what typical single byte encoding performance should be.",
+      "The encoding performance for single-byte encodings is essentially identical among encodings (as one would expect), so Windows-1252 is the only representative to avoid skewing the results one way or another.",
+    ].join(" "),
+    [
+      "Input data is provided based on what is expected for the encoding.",
+      `For example, iconv-nano can handle characters comprised of multiple code points for single-byte encodings (${md.code("iconv.ascii.encode('😅')")} encodes into '?') while iconv-lite cannot (it encodes into '??').`,
+      `See ${md.link("https://github.com/pillarjs/iconv-lite/issues/368", "pillarjs/iconv-lite#368")}.`,
+      "This issue will not be represented in the ASCII encoding fixture.",
+    ].join(" "),
+  ]),
   md.heading("Results", { level: 2 }),
   [
     `Faster library is ${md.bold("bolded")} and <mark>highlighted</mark>.`,
