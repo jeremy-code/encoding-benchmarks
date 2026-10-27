@@ -1,7 +1,10 @@
 import { chromium } from "playwright";
 
 const getChromiumVersion = async () => {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({
+    channel: "chromium",
+    headless: true,
+  });
   try {
     return browser.version();
   } finally {
