@@ -27,6 +27,21 @@ const mapObjectArrayToTable = (
   return md.table(keys, rows, options);
 };
 
+const mapStatisticsToTable = (
+  statistics: Record<string, Record<string, number>>,
+): string => {
+  const libraries = ["iconv-nano", "iconv-lite"];
+
+  return md.table(
+    ["Library", "encode", "decode"],
+    libraries.map((library) => [
+      library,
+      `${statistics["encode"]![library]}`,
+      `${statistics["decode"]![library]}`,
+    ]),
+  );
+};
+
 const getTestOutput = async () => {
   const json = await import("../test-output.json", {
     with: { type: "json" },
@@ -40,6 +55,14 @@ type Benchmark = Omit<BenchmarkRow, "name"> &
   Record<"library" | "encoding" | "operation", string>;
 
 const getBenchmarks = (jsonTestResults: JsonTestResults) => {
+  const statistics: Record<
+    "node" | "chromium",
+    Record<string, Record<string, number>>
+  > = {
+    node: {},
+    chromium: {},
+  };
+
   const [nodeTestResult, chromiumTestResult] = jsonTestResults.testResults
     .map((testResult) =>
       testResult.assertionResults.flatMap((assertionResult) =>
@@ -59,14 +82,21 @@ const getBenchmarks = (jsonTestResults: JsonTestResults) => {
       ),
     )
     // Sort in consistent order and bold the faster library
-    .map((testResult) =>
-      chunk(testResult, 2)
+    .map((testResult, i) => {
+      const runtime = i === 0 ? "node" : "chromium";
+
+      return chunk(testResult, 2)
         .map((testResultChunks) => {
           const { "iconv-nano": iconvNano, "iconv-lite": iconvLite } =
             testResultChunks.reduce<Record<string, Benchmark>>(
               (acc, val, index) => {
                 acc[val.library] = val;
                 if (index === 0) {
+                  const currStatistics =
+                    statistics[runtime][val.operation] ?? {};
+                  statistics[runtime][val.operation] = currStatistics;
+                  currStatistics[val.library] =
+                    (currStatistics[val.library] ?? 0) + 1;
                   val.library = `<mark>${md.bold(val.library)}</mark>⚡`;
                 }
                 return acc;
@@ -75,12 +105,13 @@ const getBenchmarks = (jsonTestResults: JsonTestResults) => {
             );
           return [iconvNano!, iconvLite!];
         })
-        .flat(),
-    );
+        .flat();
+    });
   if (nodeTestResult === undefined || chromiumTestResult === undefined) {
     throw new Error("Expected two JsonTestResult objects in testResults");
   }
-  return { node: nodeTestResult, chromium: chromiumTestResult };
+
+  return { node: nodeTestResult, chromium: chromiumTestResult, statistics };
 };
 
 const benchmarks = getBenchmarks(await getTestOutput());
@@ -128,6 +159,12 @@ const output = md.joinBlocks([
   mapObjectArrayToTable(benchmarks.node),
   md.heading("Chromium", { level: 3 }),
   mapObjectArrayToTable(benchmarks.chromium),
+  md.heading("Statistics", { level: 3 }),
+  "The tables describe the number of times the library was the fastest for the given operation ('encode'/'decode').",
+  md.heading("Node.js", { level: 4 }),
+  mapStatisticsToTable(benchmarks.statistics.node),
+  md.heading("Chromium", { level: 4 }),
+  mapStatisticsToTable(benchmarks.statistics.chromium),
   md.heading("License", { level: 2 }),
   [
     "This project is licensed under the MIT license.",
