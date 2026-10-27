@@ -13,6 +13,20 @@ import {
   type BenchmarkRow,
 } from "./utils/renderBenchmarkRow.ts";
 
+const mapObjectArrayToTable = (
+  arr: Record<PropertyKey, unknown>[],
+  options?: md.TableOptions,
+): string => {
+  const firstItem = arr.at(0);
+  if (firstItem === undefined) {
+    return "";
+  }
+  const keys = Object.keys(firstItem);
+  // oxlint-disable-next-line restrict-template-expressions -- output has to be a string
+  const rows = arr.map((val) => keys.map((key) => `${val[key]}`));
+  return md.table(keys, rows, options);
+};
+
 const getTestOutput = async () => {
   const json = await import("../test-output.json", {
     with: { type: "json" },
@@ -111,15 +125,9 @@ const output = md.joinBlocks([
     `Ran on Node.js ${process.version} and Chromium ${await getChromiumVersion()} on ${md.link(`https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`, `GitHub Actions runner ${process.env.ImageOS} version ${process.env.ImageVersion} (${process.env.RUNNER_ARCH})`)}.`,
   ].join(" "),
   md.heading("Node.js", { level: 3 }),
-  md.table(
-    Object.keys(benchmarks.node[0]!),
-    benchmarks.node.map((row) => Object.values(row)),
-  ),
+  mapObjectArrayToTable(benchmarks.node),
   md.heading("Chromium", { level: 3 }),
-  md.table(
-    Object.keys(benchmarks.chromium[0]!),
-    benchmarks.chromium.map((row) => Object.values(row)),
-  ),
+  mapObjectArrayToTable(benchmarks.chromium),
   md.heading("License", { level: 2 }),
   [
     "This project is licensed under the MIT license.",
