@@ -67,7 +67,7 @@ const getBenchmarks = (jsonTestResults: JsonTestResults) => {
               (acc, val, index) => {
                 acc[val.library] = val;
                 if (index === 0) {
-                  val.library = `<mark>${md.bold(val.library)}</mark>`;
+                  val.library = `<mark>${md.bold(val.library)}</mark>⚡`;
                 }
                 return acc;
               },
@@ -120,7 +120,7 @@ const output = md.joinBlocks([
   ]),
   md.heading("Results", { level: 2 }),
   [
-    `Faster library is ${md.bold("bolded")} and <mark>highlighted</mark>.`,
+    `Faster library is ${md.bold("bolded")}, <mark>highlighted</mark>, and denoted with ⚡.`,
     `Library versions are ${md.link("https://www.npmjs.com/package/iconv-nano", "iconv-nano")}@${await getPackageVersion("iconv-nano")} and ${md.link("https://www.npmjs.com/package/iconv-lite", "iconv-lite")}@${await getPackageVersion("iconv-lite")}.`,
     `Ran on Node.js ${process.version} and Chromium ${await getChromiumVersion()} on ${md.link(`https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`, `GitHub Actions runner ${process.env.ImageOS} version ${process.env.ImageVersion} (${process.env.RUNNER_ARCH})`)}.`,
   ].join(" "),
