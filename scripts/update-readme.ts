@@ -91,13 +91,15 @@ const getBenchmarks = (jsonTestResults: JsonTestResults) => {
             testResultChunks.reduce<Record<string, Benchmark>>(
               (acc, val, index) => {
                 acc[val.library] = val;
+                const currStatistics = statistics[runtime][val.operation] ?? {};
+                statistics[runtime][val.operation] = currStatistics;
                 if (index === 0) {
-                  const currStatistics =
-                    statistics[runtime][val.operation] ?? {};
-                  statistics[runtime][val.operation] = currStatistics;
                   currStatistics[val.library] =
                     (currStatistics[val.library] ?? 0) + 1;
                   val.library = `<mark>${md.bold(val.library)}</mark>⚡`;
+                } else {
+                  currStatistics[val.library] =
+                    currStatistics[val.library] ?? 0;
                 }
                 return acc;
               },
