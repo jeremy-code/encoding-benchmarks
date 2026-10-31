@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "iconv-lite": "^0.7.3",
-    "iconv-nano": "^0.0.19",
+    "iconv-nano": "^0.0.20",
     "safer-buffer": "^2.1.2"
   },
   "devDependencies": {
@@ -35,7 +35,7 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "12.14.0",
+      "version": "12.16.1",
       "onFail": "download"
     },
     "runtime": {
