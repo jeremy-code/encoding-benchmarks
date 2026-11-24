@@ -42,7 +42,6 @@ const encodings = {
 describe.for(Object.entries(encodings))(
   "%s",
   async ([, { encoding, encodedText, text }]) => {
-    // oxlint-disable-next-line vitest/expect-expect -- expect is not necessary, this test only runs benchmarks
     it("encode", async ({ bench }) => {
       await bench.compare(
         bench("iconv-lite", () => {
@@ -54,7 +53,6 @@ describe.for(Object.entries(encodings))(
       );
     });
 
-    // oxlint-disable-next-line vitest/expect-expect -- expect is not necessary, this test only runs benchmarks
     it("decode", async ({ bench }) => {
       await bench.compare(
         bench("iconv-lite", () => {
