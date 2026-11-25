@@ -30,6 +30,10 @@ https://ar.wikipedia.org/w/index.php?title=%D8%B5%D9%8A%D8%BA%D8%A9_%D8%A7%D9%84
 
 https://ru.wikipedia.org/w/index.php?title=UTF-16&oldid=149815480
 
+### UTF-32BE
+
+https://zh.wikipedia.org/w/index.php?title=UTF-32&oldid=95324023
+
 ## Output sources
 
 See [../scripts/update-fixtures.py](../scripts/update-fixtures.py).

@@ -39,6 +39,10 @@ const encodings = {
     encoding: "utf_16le",
     ...(await getFixture("utf-16le")),
   },
+  "UTF-32": {
+    encoding: "utf_32be",
+    ...(await getFixture("utf-32be")),
+  },
 } as const satisfies Record<
   string,
   { encoding: iconvNano.Encoding & iconvLite.Encoding } & Fixture
