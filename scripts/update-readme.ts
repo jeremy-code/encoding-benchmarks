@@ -161,6 +161,9 @@ const output = md.joinBlocks([
       `See ${md.link("https://github.com/pillarjs/iconv-lite/issues/368", "pillarjs/iconv-lite#368")}.`,
       "This issue will not be represented in the ASCII encoding fixture.",
     ].join(" "),
+    [
+      "iconv-lite-beta is imported from its web entrypoint. This would not be necessary in practice (since the package uses conditional exports), but is done for explicitness.",
+    ].join(" "),
   ]),
   md.heading("Results", { level: 2 }),
   [
