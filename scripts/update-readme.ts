@@ -30,7 +30,7 @@ const mapObjectArrayToTable = (
 const mapStatisticsToTable = (
   statistics: Record<string, Record<string, number>>,
 ): string => {
-  const libraries = ["iconv-nano", "iconv-lite"];
+  const libraries = ["iconv-nano", "iconv-lite", "iconv-lite (beta)"];
 
   return md.table(
     ["Library", "encode", "decode"],
@@ -85,27 +85,38 @@ const getBenchmarks = (jsonTestResults: JsonTestResults) => {
     .map((testResult, i) => {
       const runtime = i === 0 ? "node" : "chromium";
 
-      return chunk(testResult, 2)
+      return chunk(testResult, 3)
         .map((testResultChunks) => {
-          const { "iconv-nano": iconvNano, "iconv-lite": iconvLite } =
-            testResultChunks.reduce<Record<string, Benchmark>>(
-              (acc, val, index) => {
-                acc[val.library] = val;
-                const currStatistics = statistics[runtime][val.operation] ?? {};
-                statistics[runtime][val.operation] = currStatistics;
-                if (index === 0) {
-                  currStatistics[val.library] =
-                    (currStatistics[val.library] ?? 0) + 1;
-                  val.library = `<mark>${md.bold(val.library)}</mark>⚡`;
-                } else {
-                  currStatistics[val.library] =
-                    currStatistics[val.library] ?? 0;
-                }
-                return acc;
-              },
-              {},
-            );
-          return [iconvNano!, iconvLite!];
+          const {
+            "iconv-nano": iconvNano,
+            "iconv-lite": iconvLite,
+            "iconv-lite (beta)": iconvLiteBeta,
+          } = testResultChunks.reduce<Record<string, Benchmark>>(
+            (acc, val, index) => {
+              acc[val.library] = val;
+              const currStatistics = statistics[runtime][val.operation] ?? {};
+              statistics[runtime][val.operation] = currStatistics;
+
+              if (index === 0) {
+                currStatistics[val.library] =
+                  (currStatistics[val.library] ?? 0) + 1;
+                val.library = `<mark>${md.bold(val.library)}</mark>⚡`;
+              } else {
+                currStatistics[val.library] = currStatistics[val.library] ?? 0;
+              }
+              return acc;
+            },
+            {},
+          );
+          if (
+            iconvNano !== undefined &&
+            iconvLite !== undefined &&
+            iconvLiteBeta === undefined
+          ) {
+            console.log({ iconvNano, iconvLite, iconvLiteBeta });
+            return [];
+          }
+          return [iconvNano!, iconvLite!, iconvLiteBeta!];
         })
         .flat();
     });
@@ -154,7 +165,7 @@ const output = md.joinBlocks([
   md.heading("Results", { level: 2 }),
   [
     `Faster library is ${md.bold("bolded")}, <mark>highlighted</mark>, and denoted with ⚡.`,
-    `Library versions are ${md.link("https://www.npmjs.com/package/iconv-nano", "iconv-nano")}@${await getPackageVersion("iconv-nano")} and ${md.link("https://www.npmjs.com/package/iconv-lite", "iconv-lite")}@${await getPackageVersion("iconv-lite")}.`,
+    `Library versions are ${md.link("https://www.npmjs.com/package/iconv-nano", "iconv-nano")}@${await getPackageVersion("iconv-nano")}, ${md.link("https://www.npmjs.com/package/iconv-lite", "iconv-lite")}@${await getPackageVersion("iconv-lite")}, and ${md.link("https://www.npmjs.com/package/iconv-lite", "iconv-lite (beta)")}@${await getPackageVersion("iconv-lite-beta")}.`,
     `Ran on Node.js ${process.version} and Chromium ${await getChromiumVersion()} on ${md.link(`https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`, `GitHub Actions runner ${process.env.ImageOS} version ${process.env.ImageVersion} (${process.env.RUNNER_ARCH})`)}.`,
   ].join(" "),
   md.heading("Node.js", { level: 3 }),

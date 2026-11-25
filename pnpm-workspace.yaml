@@ -14,3 +14,7 @@ strictDepBuilds: true
 
 # Other settings (https://pnpm.io/settings/other)
 shellEmulator: true
+
+# Settings documented elsewhere (https://pnpm.io/settings#settings-documented-elsewhere)
+patchedDependencies:
+  iconv-lite@1.0.0-beta.1: patches/iconv-lite@1.0.0-beta.1.patch

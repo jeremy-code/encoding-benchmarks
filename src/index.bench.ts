@@ -5,6 +5,11 @@ import { describe, expect, it } from "vitest";
 
 import { getFixture, type Fixture } from "./__utils__/getFixture.js";
 
+const iconvLiteBeta =
+  import.meta.runtime === "node"
+    ? await import("iconv-lite-beta")
+    : await import("iconv-lite-beta/web");
+
 const encodings = {
   ASCII: {
     encoding: "windows_1252",
@@ -47,6 +52,9 @@ describe.for(Object.entries(encodings))(
         bench("iconv-lite", () => {
           return iconvLite.encode(text, encoding);
         }),
+        bench("iconv-lite (beta)", () => {
+          return iconvLiteBeta.encode(text, encoding);
+        }),
         bench("iconv-nano", () => {
           return iconvNano[encoding].encode(text);
         }),
@@ -57,6 +65,9 @@ describe.for(Object.entries(encodings))(
       await bench.compare(
         bench("iconv-lite", () => {
           return iconvLite.decode(encodedText, encoding);
+        }),
+        bench("iconv-lite (beta)", () => {
+          return iconvLiteBeta.decode(encodedText, encoding);
         }),
         bench("iconv-nano", () => {
           return iconvNano[encoding].decode(encodedText);
@@ -70,11 +81,20 @@ describe.for(Object.entries(encodings))(
         encodedText,
       );
     });
+    it("iconv-lite (beta) encodes text correctly", () => {
+      // Buffer doesn't .toEqual Uint8Array
+      expect(new Uint8Array(iconvLiteBeta.encode(text, encoding))).toEqual(
+        encodedText,
+      );
+    });
     it("iconv-nano encodes text correctly", () => {
       expect(iconvNano[encoding].encode(text)).toEqual(encodedText);
     });
     it("iconv-lite decodes text correctly", () => {
       expect(iconvLite.decode(encodedText, encoding)).toEqual(text);
+    });
+    it("iconv-lite (beta) decodes text correctly", () => {
+      expect(iconvLiteBeta.decode(encodedText, encoding)).toEqual(text);
     });
     it("iconv-nano decodes text correctly", () => {
       expect(iconvNano[encoding].decode(encodedText)).toEqual(text);

@@ -6,12 +6,18 @@ const vitestConfig = defineConfig({
   test: {
     projects: [
       {
+        define: { "import.meta.runtime": JSON.stringify("node") },
         test: {
           name: "node",
           environment: "node",
         },
       },
       {
+        define: { "import.meta.runtime": JSON.stringify("chromium") },
+        plugins: [nodePolyfills({ include: ["buffer"] })],
+        optimizeDeps: {
+          include: ["iconv-lite-beta/web"],
+        },
         test: {
           name: "browser",
           browser: {
@@ -23,7 +29,6 @@ const vitestConfig = defineConfig({
             screenshotFailures: false,
           },
         },
-        plugins: [nodePolyfills({ include: ["buffer"] })],
       },
     ],
   },

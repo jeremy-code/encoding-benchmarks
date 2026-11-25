@@ -181,6 +181,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  iconv-lite@1.0.0-beta.1: e79679f75af6f3f906fab45816299dcb34b44e5c21a0a59812bbc708b8625024
+
 importers:
 
   .:
@@ -188,6 +191,9 @@ importers:
       iconv-lite:
         specifier: ^0.7.3
         version: 0.7.3
+      iconv-lite-beta:
+        specifier: npm:iconv-lite@1.0.0-beta.1
+        version: iconv-lite@1.0.0-beta.1(patch_hash=e79679f75af6f3f906fab45816299dcb34b44e5c21a0a59812bbc708b8625024)
       iconv-nano:
         specifier: ^0.0.22
         version: 0.0.22
@@ -1058,6 +1064,10 @@ packages:
   iconv-lite@0.7.3:
     resolution: {integrity: sha512-IKXpvIzjnC9XTAUbVBcMfGS0EPaIXtW6v+zr+RRp+hqULEpo0owZax6wyRwPOJbWbzjYspQwusTsfVr0ifh4uQ==}
     engines: {node: '>=0.10.0'}
+
+  iconv-lite@1.0.0-beta.1:
+    resolution: {integrity: sha512-Jn+jT79aZH6CGhkKIUzuIF1WTFInWntKOMCcCDiiUC94x7oOOrDnl7uroWpDG4NgkneXjhfkKHAWkC5MQi8ZjA==}
+    engines: {node: '>=22'}
 
   iconv-nano@0.0.22:
     resolution: {integrity: sha512-WohH6OqMaoM/WRRlnkgfzsNu0N2eb2KmADL8MGWWelGqrRTkJPOjk63ueBHxI/Bl9UgIwEBT9ltPUs5cSvZplA==}
@@ -2426,6 +2436,8 @@ snapshots:
   iconv-lite@0.7.3:
     dependencies:
       safer-buffer: 2.1.2
+
+  iconv-lite@1.0.0-beta.1(patch_hash=e79679f75af6f3f906fab45816299dcb34b44e5c21a0a59812bbc708b8625024): {}
 
   iconv-nano@0.0.22: {}
 

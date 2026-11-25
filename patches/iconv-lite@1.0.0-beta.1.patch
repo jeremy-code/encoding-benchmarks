@@ -1,0 +1,13 @@
+diff --git a/package.json b/package.json
+index f96b580166ffccb2797755bbc3472b4b663010d4..fb497a277db72242d5aec3869bd257012af71ed7 100644
+--- a/package.json
++++ b/package.json
+@@ -96,6 +96,7 @@
+             "types": "./dist/lib/index-web.d.ts",
+             "default": "./dist/lib/index-web.js"
+         },
+-        "./encodings/*.js": "./dist/encodings/*.js"
++        "./encodings/*.js": "./dist/encodings/*.js",
++        "./package.json": "./package.json"
+     }
+ }

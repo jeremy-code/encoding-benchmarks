@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "iconv-lite": "^0.7.3",
+    "iconv-lite-beta": "npm:iconv-lite@1.0.0-beta.1",
     "iconv-nano": "^0.0.22",
     "safer-buffer": "^2.1.2"
   },
